@@ -202,3 +202,84 @@ def read_detail(dataPath):
         #print(sigma)
 
     return image_list, label_list
+
+def read_2para_xlabel2_ylabels10(dataPath):
+
+    # make dataset list
+    image_list = []
+    label1_list = []
+    label2_list = []
+
+    # debug
+    nfile=0
+    
+    for file in tqdm(os.listdir(dataPath)):
+
+        # debug
+        """
+        nfile=nfile+1
+        if nfile>10:
+            break
+        """
+        
+        fname = dataPath + '/' + file
+        label = 0
+
+        x_check_point = file.find('x')
+        y_check_point = file.find('y')
+
+        sigmax = float(file[x_check_point+1:x_check_point+4])
+        sigmay = float(file[y_check_point+1:y_check_point+4])
+
+        # read sigmax
+        if sigmax == 1.0:
+            label1 = 0
+        elif sigmax == 2.0:
+            label1 = 1
+        
+        # read sigmay
+        if sigmay == 0.2:
+            label2 = 0
+        elif sigmay == 0.4:
+            label2 = 1
+        elif sigmay == 0.6:
+            label2 = 2
+        elif sigmay == 0.8:
+            label2 = 3
+        elif sigmay == 1.0:
+            label2 = 4
+        elif sigmay == 1.2:
+            label2 = 5
+        elif sigmay == 1.4:
+            label2 = 6
+        elif sigmay == 1.6:
+            label2 = 7
+        elif sigmay == 1.8:
+            label2 = 8
+        elif sigmay == 2.0:
+            label2 = 9
+
+        # debug
+        #print("File name is ", file, " sigma x = ", sigmax, " sigma y = ", sigmay, " label1 : ", label1, " label2 : ", label2)
+        
+
+        label1_list.append(label1)
+        label2_list.append(label2)
+
+        # Convert the image to a 64 x 64 pixel and read as a 64 x 64 two-dimensional array of elements with one element containing [R, G, B] 3 elements.
+        image = np.array(Image.open(fname).convert('L').resize((64, 64)))
+        
+        # Convert the array to a form like [[Red], [Green], [Blue]].
+        #image = image.transpose()
+        
+        # Convert to a flat one-dimensional array.
+        # Elements of the first one third are red, the next is green, and the last is blue.
+        image = image.reshape(1, image.shape[0] * image.shape[1]).astype("float32")[0]
+
+        # normalize
+        image_list.append(image / 255.)
+
+        #print(fname)
+        #print(sigma)
+
+    return image_list, label1_list, label2_list
