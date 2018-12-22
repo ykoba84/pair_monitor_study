@@ -26,7 +26,7 @@ print("time stamp :", date)
 batch_size = 1
 num_class_xlabels = 10
 num_class_ylabels = 10
-epochs = 100
+epochs = 10
 
 print("hyper parameteres : batch_size=", batch_size, "epochs=", epochs)
 
@@ -137,18 +137,23 @@ hist = model2.fit(x_train, {'output_sigmax':y_train,
                             'output_sigmay':z_train},
                   batch_size=batch_size,
                   epochs=epochs,
-                  verbose=1,
+                  verbose=2,
                   validation_split=0.2)
-"""
+
 # evaluate model
-score = model2.evaluate(x_val, {'output_sigmax':y_val,'output_sigmay':z_val}, verbose=0)
+score = model2.evaluate(x_val,
+                        {'output_sigmax':y_val,
+                         'output_sigmay':z_val},
+                        verbose=0)
+
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
-"""
+
 predictions = model2.predict(x_val)
-combinations_sigmax = np.c_[y_label, predictions]
-combinations_sigmay = np.c_[z_label, predictions]
- 
+
+combinations_sigmax = np.c_[y_label, predictions[0]]
+combinations_sigmay = np.c_[z_label, predictions[1]]
+
 total_time = time.time() - start
 print('Total time:', format(total_time) + '[sec]')
 
@@ -161,5 +166,5 @@ otp.CsvOutput_2para('x', combinations_sigmax, outputpath)
 otp.CsvOutput_2para('y', combinations_sigmay, outputpath)
 otp.TotalTimeOutput(total_time, outputpath)
 otp.HyperParameterOutput(batch_size, outputpath)
-gpt.loss_and_acc(hist, epochs, outputpath)
+gpt.loss_and_acc_2para(hist, epochs, outputpath)
 

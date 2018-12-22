@@ -218,7 +218,7 @@ def read_2para_xlabels10_ylabels10(dataPath):
         # debug
         
         nfile=nfile+1
-        if nfile>10:
+        if nfile>100:
             break
         
         
