@@ -25,9 +25,10 @@ print("time stamp :", date)
 
 batch_size = 64
 num_classes = 19
+kernel_size = 4
 epochs = 100
 
-print("hyper parameteres : batch_size=", batch_size, "epochs=", epochs)
+print("hyper parameteres : batch_size=", batch_size, " epochs=", epochs, " kernel_size=", kernel_size)
 
 # make train_data
 #x_train, y_train = ds.read_data("train_data_100000")
@@ -62,20 +63,20 @@ imagedim = (64,64,1)
 inputs = Input( shape=imagedim )
 
 ##### conv1 #####
-x = Conv2D(filters=64, kernel_size=3, strides=1, padding='same' )(inputs)
+x = Conv2D(filters=64, kernel_size=kernel_size, strides=1, padding='same' )(inputs)
 #x = BatchNormalization()(x)
 x = Activation('relu')(x)
-x = Conv2D(filters=64, kernel_size=3, strides=1, padding='same' )(x)
+x = Conv2D(filters=64, kernel_size=kernel_size, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
 x = Dropout(0.25)(x)
 
 ##### conv2 #####
-x = Conv2D(filters=128, kernel_size=3, strides=1, padding='same' )(x)
+x = Conv2D(filters=128, kernel_size=kernel_size, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
 x = Activation('relu')(x)
-x = Conv2D(filters=128, kernel_size=3, strides=1, padding='same' )(x)
+x = Conv2D(filters=128, kernel_size=kernel_size, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
@@ -83,28 +84,28 @@ x = Dropout(0.25)(x)
 
 """
 ##### conv3 #####
-x = Conv2D(filters=256, kernel_size=3, strides=1, padding='same' )(x)
+x = Conv2D(filters=256, kernel_size=kernel_size, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
 x = Activation('relu')(x)
-x = Conv2D(filters=256, kernel_size=3, strides=1, padding='same' )(x)
+x = Conv2D(filters=256, kernel_size=kernel_size, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
 
 ##### conv4 #####
-x = Conv2D(filters=512, kernel_size=3, strides=1, padding='same' )(x)
+x = Conv2D(filters=512, kernel_size=kernel_size, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
 x = Activation('relu')(x)
-x = Conv2D(filters=512, kernel_size=3, strides=1, padding='same' )(x)
+x = Conv2D(filters=512, kernel_size=kernel_size, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
 
 ##### conv5 #####
-x = Conv2D(filters=512, kernel_size=3, strides=1, padding='same' )(x)
+x = Conv2D(filters=512, kernel_size=kernel_size, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
 x = Activation('relu')(x)
-x = Conv2D(filters=512, kernel_size=3, strides=1, padding='same' )(x)
+x = Conv2D(filters=512, kernel_size=kernel_size, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)

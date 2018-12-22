@@ -33,6 +33,16 @@ def CsvOutput_0238(data, outputpath):
     fmts = ["%.0f", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e"]
     np.savetxt(outputdir, data, fmt=fmts, delimiter=',')
 
+def CsvOutput_2para(sigma, data, outputpath):
+    
+    if sigma == 'x':
+        outputdir = outputpath + '/prediction_sigmax.csv'
+    elif sigma == 'y':
+        outputdir = outputpath + '/prediction_sigmay.csv'
+        
+    fmts = ["%.0f", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e", "%.6e"]
+    np.savetxt(outputdir, data, fmt=fmts, delimiter=',')
+
 def HyperParameterOutput(batch_size, outputpath):
     outputdir = outputpath + '/hyperparameter.txt'
     f = open(outputdir, 'w')

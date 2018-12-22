@@ -23,22 +23,18 @@ start = time.time()
 date = datetime.now().strftime("%y%m%d_%H%M%S")
 print("time stamp :", date)
 
-batch_size = 64
-num_classes = 19
+batch_size = 1
+num_class_xlabels = 10
+num_class_ylabels = 10
 epochs = 100
 
 print("hyper parameteres : batch_size=", batch_size, "epochs=", epochs)
 
 # make train_data
-#x_train, y_train = ds.read_data("train_data_100000")
-#x_train, y_train = ds.read_detail("train_data_pBunch")
-#x_train, y_train = ds.read_0238("train_data_0238")
-x_train, y_train, z_train = ds.read_2para_xlabel2_ylabels10("train_data_2para_xlabel2_ylabels10")
-# make val_data
-#x_val, y_val = ds.read_data("test_data_5000")
-#x_val, y_val = ds.read_detail("test_data_detail")
-#x_val, y_val = ds.read_0238("test_data_0238")
+x_train, y_train, z_train = ds.read_2para_xlabels10_ylabels10("train_data_2para_xlabels10_ylabels10")
 
+# make val_data
+x_val, y_val, z_val = ds.read_2para_xlabels10_ylabels10("test_data_2para_xlabels10_ylabels10")
 
 # change list to array
 x_train = np.array(x_train)
@@ -50,10 +46,14 @@ x_val = x_val.reshape(x_val.shape[0], 64, 64, 1)
 
 # predict
 y_label = np.array(y_val)
+z_label = np.array(z_val)
 
 # change list to categorical
 y_train = to_categorical(y_train)
 y_val = to_categorical(y_val)
+z_train = to_categorical(z_train)
+z_val = to_categorical(z_val)
+
 
 #print(y_train.shape)
 
@@ -72,7 +72,7 @@ x = Conv2D(filters=64, kernel_size=3, strides=1, padding='same' )(x)
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
 x = Dropout(0.25)(x)
-
+"""
 ##### conv2 #####
 x = Conv2D(filters=128, kernel_size=3, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
@@ -83,7 +83,7 @@ x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
 x = Dropout(0.25)(x)
 
-"""
+
 ##### conv3 #####
 x = Conv2D(filters=256, kernel_size=3, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
@@ -119,31 +119,36 @@ x = Dropout(0.5)(x)
 #x = Dense(1024)(x)
 #x = Activation('relu')(x)
 #x = Dropout(0.5)(x)
-predictions = Dense(num_classes, activation='softmax')(x)
-model2 = Model(inputs=inputs, outputs=predictions)
+
+output1 = Dense(num_class_xlabels, activation='softmax', name='output_sigmax')(x)
+output2 = Dense(num_class_ylabels, activation='softmax', name='output_sigmay')(x)
+
+model2 = Model(inputs=inputs, outputs=[output1, output2])
 
 model2.summary()
 
-model2.compile(loss='categorical_crossentropy',
+model2.compile(loss={'output_sigmax':'categorical_crossentropy',
+                     'output_sigmay':'categorical_crossentropy'},
                optimizer=Adam(lr=0.001),
                metrics=['accuracy'])
 
 # return value each epochs
-hist = model2.fit(x_train, y_train,
+hist = model2.fit(x_train, {'output_sigmax':y_train,
+                            'output_sigmay':z_train},
                   batch_size=batch_size,
                   epochs=epochs,
                   verbose=1,
                   validation_split=0.2)
-#                  validation_data=(x_val, y_val))
-
+"""
 # evaluate model
-score = model2.evaluate(x_val, y_val, verbose=0)
+score = model2.evaluate(x_val, {'output_sigmax':y_val,'output_sigmay':z_val}, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
-
+"""
 predictions = model2.predict(x_val)
-combinations = np.c_[y_label, predictions]
-
+combinations_sigmax = np.c_[y_label, predictions]
+combinations_sigmay = np.c_[z_label, predictions]
+ 
 total_time = time.time() - start
 print('Total time:', format(total_time) + '[sec]')
 
@@ -152,7 +157,8 @@ outputpath = 'result/cnn/' + date
 os.makedirs(outputpath)
 otp.ModelOutput(model2, outputpath)
 otp.EvaluateOutput(score, outputpath)
-otp.CsvOutput_0238(combinations, outputpath)
+otp.CsvOutput_2para('x', combinations_sigmax, outputpath)
+otp.CsvOutput_2para('y', combinations_sigmay, outputpath)
 otp.TotalTimeOutput(total_time, outputpath)
 otp.HyperParameterOutput(batch_size, outputpath)
 gpt.loss_and_acc(hist, epochs, outputpath)

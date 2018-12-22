@@ -203,7 +203,7 @@ def read_detail(dataPath):
 
     return image_list, label_list
 
-def read_2para_xlabel2_ylabels10(dataPath):
+def read_2para_xlabels10_ylabels10(dataPath):
 
     # make dataset list
     image_list = []
@@ -216,11 +216,11 @@ def read_2para_xlabel2_ylabels10(dataPath):
     for file in tqdm(os.listdir(dataPath)):
 
         # debug
-        """
+        
         nfile=nfile+1
         if nfile>10:
             break
-        """
+        
         
         fname = dataPath + '/' + file
         label = 0
@@ -232,10 +232,26 @@ def read_2para_xlabel2_ylabels10(dataPath):
         sigmay = float(file[y_check_point+1:y_check_point+4])
 
         # read sigmax
-        if sigmax == 1.0:
+        if sigmax == 0.2:
             label1 = 0
-        elif sigmax == 2.0:
+        elif sigmax == 0.4:
             label1 = 1
+        elif sigmax == 0.6:
+            label1 = 2
+        elif sigmax == 0.8:
+            label1 = 3
+        elif sigmax == 1.0:
+            label1 = 4
+        elif sigmax == 1.2:
+            label1 = 5
+        elif sigmax == 1.4:
+            label1 = 6
+        elif sigmax == 1.6:
+            label1 = 7
+        elif sigmax == 1.8:
+            label1 = 8
+        elif sigmax == 2.0:
+            label1 = 9
         
         # read sigmay
         if sigmay == 0.2:
