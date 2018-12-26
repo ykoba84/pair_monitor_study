@@ -10,13 +10,13 @@ def img_open_from_files(filename, img_size):
     # resize to 64x64 from 80x80
     resized_img = cv2.resize(img, dsize=(img_size, img_size))
     # Convert to a flat one-dimensional array.
-    converted_img = resize_img.reshape(1, resized_img.shape[0] * resized_img.shape[1]).astype("float32")[0]
+    converted_img = resized_img.reshape(1, resized_img.shape[0] * resized_img.shape[1]).astype("float32")[0]
 
     return converted_img
     
     
 
-def read_data(dataPath):
+def read_data_sigmay_of_ebunch(dataPath):
 
     # make dataset list
     image_list = []
@@ -63,18 +63,18 @@ def read_data(dataPath):
 
     return image_list, label_list
 
-def read_0238(dataPath):
+def read_data_sigmay(dataPath):
 
     # make dataset list
     image_list = []
     label_list = []
     nfile=0
     for file in tqdm(os.listdir(dataPath)):
-        """
+        
         nfile=nfile+1
         if nfile>100:
             break
-        """
+        
         fname = dataPath + '/' + file
         label = 0
 
@@ -120,62 +120,6 @@ def read_0238(dataPath):
             label = 17
         elif sigma == 3.8:
             label = 18
-
-        label_list.append(label)
-
-        image = img_open_from_files(fname, 64)
-
-        image_list.append(image / 255.)
-
-        #print(fname)
-        #print(sigma)
-
-    return image_list, label_list
-
-def read_detail(dataPath):
-
-    # make dataset list
-    image_list = []
-    label_list = []
-    nfile=0
-    for file in tqdm(os.listdir(dataPath)):
-        """
-        nfile=nfile+1
-        if nfile>100:
-            break
-        """
-        fname = dataPath + '/' + file
-        label = 0
-
-        m = file.find('-')
-        sigma = float(file[m-3:m])
-
-        # read label
-        if sigma == 0.8:
-            label = 0
-        elif sigma == 1.0:
-            label = 1
-        elif sigma == 1.2:
-            label =2 
-        elif sigma == 1.4:
-            label = 3
-        elif sigma == 1.6:
-            label = 4
-        elif sigma == 1.8:
-            label = 5
-        elif sigma == 2.0:
-            label = 6
-        elif sigma == 2.2:
-            label = 7
-        elif sigma == 2.4:
-            label = 8
-        elif sigma == 2.6:
-            label = 9
-        elif sigma == 2.8:
-            label = 10
-        elif sigma == 3.0:
-            label = 11
-        
 
         label_list.append(label)
 

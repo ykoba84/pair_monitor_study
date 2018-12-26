@@ -29,12 +29,9 @@ num_classes = 19
 epochs = 100
 
 # make train_data
-#x_train, y_train = ds.read_data("train_data_100000")
-x_train, y_train = ds.read_0238("train_data_0238")
+x_train, y_train = ds.read_data_sigmay("train_data_sigmay_labels19")
 # make test_data
-#x_test, y_test = ds.read_data("test_data_5000")
-x_test, y_test = ds.read_0238("test_data_0238")
-
+x_test, y_test = ds.read_data_sigmay("test_data_sigmay_labels19")
 
 # from list to array
 x_train = np.array(x_train)
