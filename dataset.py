@@ -1,7 +1,20 @@
 import numpy as np
+import cv2
 from PIL import Image
 from tqdm import tqdm
 import os
+
+def img_open_from_files(filename, img_size):
+    # read images in grayscale
+    img = cv2.imread(filename, 0)
+    # resize to 64x64 from 80x80
+    resized_img = cv2.resize(img, dsize=(img_size, img_size))
+    # Convert to a flat one-dimensional array.
+    converted_img = resize_img.reshape(1, resized_img.shape[0] * resized_img.shape[1]).astype("float32")[0]
+
+    return converted_img
+    
+    
 
 def read_data(dataPath):
 
@@ -45,20 +58,8 @@ def read_data(dataPath):
 
         label_list.append(label)
 
-        # Convert the image to a 64 x 64 pixel and read as a 64 x 64 two-dimensional array of elements with one element containing [R, G, B] 3 elements.
-        image = np.array(Image.open(fname).convert('L').resize((64, 64)))
-        # Convert the array to a form like [[Red], [Green], [Blue]].
-        #image = image.transpose()
-        # Convert to a flat one-dimensional array.
-        # Elements of the first one third are red, the next is green, and the last is blue.
-        #image = image.reshape(image.shape[0], image.shape[1]).astype("float32")[0]
-        image = image.reshape(1, image.shape[0] * image.shape[1]).astype("float32")[0]
-        #image = image.astype("float32")
-
+        image = img_open_from_files(fname, 64)
         image_list.append(image / 255.)
-
-        #print(fname)
-        #print(sigma)
 
     return image_list, label_list
 
@@ -122,15 +123,7 @@ def read_0238(dataPath):
 
         label_list.append(label)
 
-        # Convert the image to a 64 x 64 pixel and read as a 64 x 64 two-dimensional array of elements with one element containing [R, G, B] 3 elements.
-        image = np.array(Image.open(fname).convert('L').resize((64, 64)))
-        # Convert the array to a form like [[Red], [Green], [Blue]].
-        #image = image.transpose()
-        # Convert to a flat one-dimensional array.
-        # Elements of the first one third are red, the next is green, and the last is blue.
-        #image = image.reshape(image.shape[0], image.shape[1]).astype("float32")[0]
-        image = image.reshape(1, image.shape[0] * image.shape[1]).astype("float32")[0]
-        #image = image.astype("float32")
+        image = img_open_from_files(fname, 64)
 
         image_list.append(image / 255.)
 
@@ -186,15 +179,7 @@ def read_detail(dataPath):
 
         label_list.append(label)
 
-        # Convert the image to a 64 x 64 pixel and read as a 64 x 64 two-dimensional array of elements with one element containing [R, G, B] 3 elements.
-        image = np.array(Image.open(fname).convert('L').resize((64, 64)))
-        # Convert the array to a form like [[Red], [Green], [Blue]].
-        #image = image.transpose()
-        # Convert to a flat one-dimensional array.
-        # Elements of the first one third are red, the next is green, and the last is blue.
-        #image = image.reshape(image.shape[0], image.shape[1]).astype("float32")[0]
-        image = image.reshape(1, image.shape[0] * image.shape[1]).astype("float32")[0]
-        #image = image.astype("float32")
+        image = img_open_from_files(fname, 64)
 
         image_list.append(image / 255.)
 
@@ -218,7 +203,7 @@ def read_2para_xlabels10_ylabels10(dataPath):
         # debug
         """
         nfile=nfile+1
-        if nfile>2000:
+        if nfile>1000:
             break
         """
         
@@ -275,23 +260,11 @@ def read_2para_xlabels10_ylabels10(dataPath):
         elif sigmay == 2.0:
             label2 = 9
 
-        # debug
-        #print("File name is ", file, " sigma x = ", sigmax, " sigma y = ", sigmay, " label1 : ", label1, " label2 : ", label2)
-        
-
         label1_list.append(label1)
         label2_list.append(label2)
 
-        # Convert the image to a 64 x 64 pixel and read as a 64 x 64 two-dimensional array of elements with one element containing [R, G, B] 3 elements.
-        image = np.array(Image.open(fname).convert('L').resize((80, 80)))
+        image = img_open_from_files(fname, 64)
         
-        # Convert the array to a form like [[Red], [Green], [Blue]].
-        #image = image.transpose()
-        
-        # Convert to a flat one-dimensional array.
-        # Elements of the first one third are red, the next is green, and the last is blue.
-        image = image.reshape(1, image.shape[0] * image.shape[1]).astype("float32")[0]
-
         # normalize
         image_list.append(image / 255.)
 

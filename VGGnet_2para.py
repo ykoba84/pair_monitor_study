@@ -41,8 +41,8 @@ x_train = np.array(x_train)
 x_val = np.array(x_val)
 
 # reshape
-x_train = x_train.reshape(x_train.shape[0], 80, 80, 1)
-x_val = x_val.reshape(x_val.shape[0], 80, 80, 1)
+x_train = x_train.reshape(x_train.shape[0], 64, 64, 1)
+x_val = x_val.reshape(x_val.shape[0], 64, 64, 1)
 
 # predict
 y_label = np.array(y_val)
@@ -58,7 +58,7 @@ z_val = to_categorical(z_val)
 #print(y_train.shape)
 
 # set loss
-imagedim = (80,80,1)
+imagedim = (64,64,1)
 
 ##### input #####
 inputs = Input( shape=imagedim )
