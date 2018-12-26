@@ -216,11 +216,11 @@ def read_2para_xlabels10_ylabels10(dataPath):
     for file in tqdm(os.listdir(dataPath)):
 
         # debug
-        
+        """
         nfile=nfile+1
-        if nfile>100:
+        if nfile>2000:
             break
-        
+        """
         
         fname = dataPath + '/' + file
         label = 0
@@ -283,7 +283,7 @@ def read_2para_xlabels10_ylabels10(dataPath):
         label2_list.append(label2)
 
         # Convert the image to a 64 x 64 pixel and read as a 64 x 64 two-dimensional array of elements with one element containing [R, G, B] 3 elements.
-        image = np.array(Image.open(fname).convert('L').resize((64, 64)))
+        image = np.array(Image.open(fname).convert('L').resize((80, 80)))
         
         # Convert the array to a form like [[Red], [Green], [Blue]].
         #image = image.transpose()
