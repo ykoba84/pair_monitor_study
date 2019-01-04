@@ -135,9 +135,9 @@ def read_data_sigmay(dataPath):
 def read_2para_xlabels10_ylabels10(dataPath):
 
     # make dataset list
-    image_list = []
-    label1_list = []
-    label2_list = []
+    image_list = np.empty(0)
+    label1_list = np.empty(0)
+    label2_list = np.empty(0)
 
     # debug
     nfile=0
@@ -145,11 +145,9 @@ def read_2para_xlabels10_ylabels10(dataPath):
     for file in tqdm(os.listdir(dataPath)):
 
         # debug
-        """
         nfile=nfile+1
         if nfile>1000:
             break
-        """
         
         fname = dataPath + '/' + file
         label = 0
@@ -204,13 +202,15 @@ def read_2para_xlabels10_ylabels10(dataPath):
         elif sigmay == 2.0:
             label2 = 9
 
-        label1_list.append(label1)
-        label2_list.append(label2)
+        image = img_open_from_files(fname, 80) / 255.
 
-        image = img_open_from_files(fname, 64)
-        
+        #label1_list.append(label1)
+        #label2_list.append(label2)
+        label1_list = np.append(label1_list, label1)
+        label2_list = np.append(label2_list, label2)
         # normalize
-        image_list.append(image / 255.)
+        #image_list.append(image / 255.)
+        image_list = np.append(image_list, image)
 
         #print(fname)
         #print(sigma)
