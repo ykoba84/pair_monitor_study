@@ -6,15 +6,15 @@ import os
 
 def img_open_from_files(filename, img_size):
     # read images in grayscale
-    img = cv2.imread(filename, 0)
+    #img = cv2.imread(filename, 0)
     # resize to 64x64 from 80x80
-    resized_img = cv2.resize(img, dsize=(img_size, img_size))
+    #resized_img = cv2.resize(img, dsize=(img_size, img_size))
     # Convert to a flat one-dimensional array.
-    converted_img = resized_img.reshape(1, resized_img.shape[0] * resized_img.shape[1]).astype("float32")[0]
+    #converted_img = resized_img.reshape(1, resized_img.shape[0] * resized_img.shape[1]).astype("float32")[0]
 
+    img = np.array(Image.open(filename).resize((img_size,img_size)).convert('L'))
+    converted_img = img.flatten().astype("float32")
     return converted_img
-    
-    
 
 def read_data_sigmay_of_ebunch(dataPath):
 
@@ -141,13 +141,23 @@ def read_2para_xlabels10_ylabels10(dataPath):
 
     # debug
     nfile=0
+
+    number=0
     
     for file in tqdm(os.listdir(dataPath)):
 
         # debug
+        """
         nfile=nfile+1
-        if nfile>1000:
+        if nfile>10000:
             break
+        """
+
+        if number == 0:
+            image_temp = []
+            label1_temp = []
+            label2_temp = []
+            
         
         fname = dataPath + '/' + file
         label = 0
@@ -202,17 +212,29 @@ def read_2para_xlabels10_ylabels10(dataPath):
         elif sigmay == 2.0:
             label2 = 9
 
-        image = img_open_from_files(fname, 80) / 255.
+        image = img_open_from_files(fname, 80)
 
-        #label1_list.append(label1)
-        #label2_list.append(label2)
-        label1_list = np.append(label1_list, label1)
-        label2_list = np.append(label2_list, label2)
-        # normalize
-        #image_list.append(image / 255.)
-        image_list = np.append(image_list, image)
+        image_temp.append(image / 255.)
+        label1_temp.append(label1)
+        label2_temp.append(label2)
+
+        if number == 100000:
+            np.append(image_list, np.asarray(image_temp))
+            np.append(label1_list, np.asarray(label1_temp))
+            np.append(label2_list, np.asarray(label2_temp))
+            #image_list += np.asarray(image_temp)
+            #label1_list += np.asarray(label1_temp)
+            #label2_list += np.asarray(label2_temp)
+            number = 0
+            continue
+
+        number += 1
 
         #print(fname)
         #print(sigma)
+
+    np.append(image_list, np.asarray(image_temp))
+    np.append(label1_list, np.asarray(label1_temp))
+    np.append(label2_list, np.asarray(label2_temp))
 
     return image_list, label1_list, label2_list

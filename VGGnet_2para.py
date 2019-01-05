@@ -23,7 +23,7 @@ start = time.time()
 date = datetime.now().strftime("%y%m%d_%H%M%S")
 print("time stamp :", date)
 
-batch_size = 100
+batch_size = 90
 num_class_xlabels = 10
 num_class_ylabels = 10
 epochs = 100
@@ -65,26 +65,26 @@ inputs = Input( shape=imagedim )
 ksize = 5
 
 ##### conv1 #####
-x = Conv2D(filters=64, kernel_size=ksize, strides=1, padding='same' )(inputs)
+x = Conv2D(filters=128, kernel_size=ksize, strides=1, padding='same' )(inputs)
 x = BatchNormalization()(x)
 x = Activation('relu')(x)
-x = Conv2D(filters=64, kernel_size=ksize, strides=1, padding='same' )(x)
+x = Conv2D(filters=128, kernel_size=ksize, strides=1, padding='same' )(x)
 x = BatchNormalization()(x)
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
 x = Dropout(0.25)(x)
 
-"""
+
 ##### conv2 #####
-x = Conv2D(filters=128, kernel_size=ksize, strides=1, padding='same' )(x)
+x = Conv2D(filters=256, kernel_size=ksize, strides=1, padding='same' )(x)
 x = BatchNormalization()(x)        
 x = Activation('relu')(x)
-x = Conv2D(filters=128, kernel_size=ksize, strides=1, padding='same' )(x)
+x = Conv2D(filters=256, kernel_size=ksize, strides=1, padding='same' )(x)
 x = BatchNormalization()(x)        
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
 x = Dropout(0.25)(x)
-
+"""
 ##### conv3 #####
 x = Conv2D(filters=256, kernel_size=ksize, strides=1, padding='same' )(x)
 #x = BatchNormalization()(x)        
