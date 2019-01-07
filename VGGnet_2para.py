@@ -23,7 +23,7 @@ start = time.time()
 date = datetime.now().strftime("%y%m%d_%H%M%S")
 print("time stamp :", date)
 
-batch_size = 90
+batch_size = 25
 num_class_xlabels = 10
 num_class_ylabels = 10
 epochs = 100
@@ -54,7 +54,6 @@ y_val = to_categorical(y_val)
 z_train = to_categorical(z_train)
 z_val = to_categorical(z_val)
 
-
 #print(y_train.shape)
 
 # set loss
@@ -73,7 +72,6 @@ x = BatchNormalization()(x)
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
 x = Dropout(0.25)(x)
-
 
 ##### conv2 #####
 x = Conv2D(filters=256, kernel_size=ksize, strides=1, padding='same' )(x)
@@ -140,7 +138,7 @@ hist = model2.fit(x_train, {'output_sigmax':y_train,
                   batch_size=batch_size,
                   epochs=epochs,
                   verbose=2,
-                  validation_split=0.2)
+                  validation_split=0.1)
 
 # evaluate model
 score = model2.evaluate(x_val,
