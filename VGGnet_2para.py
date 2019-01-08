@@ -23,7 +23,7 @@ start = time.time()
 date = datetime.now().strftime("%y%m%d_%H%M%S")
 print("time stamp :", date)
 
-batch_size = 25
+batch_size = 16
 num_class_xlabels = 10
 num_class_ylabels = 10
 epochs = 100
@@ -36,13 +36,14 @@ x_train, y_train, z_train = ds.read_2para_xlabels10_ylabels10("train_data_2para_
 # make val_data
 x_val, y_val, z_val = ds.read_2para_xlabels10_ylabels10("test_data_2para_xlabels10_ylabels10")
 
+
 # change list to array
 #x_train = np.array(x_train)
 #x_val = np.array(x_val)
 
 # reshape
-x_train = x_train.reshape(x_train.shape[0], 80, 80, 1)
-x_val = x_val.reshape(x_val.shape[0], 80, 80, 1)
+x_train = x_train.reshape(x_train.shape[0], 40, 40, 1)
+x_val = x_val.reshape(x_val.shape[0], 40, 40, 1)
 
 # predict
 y_label = np.array(y_val)
@@ -57,7 +58,7 @@ z_val = to_categorical(z_val)
 #print(y_train.shape)
 
 # set loss
-imagedim = (80,80,1)
+imagedim = (40,40,1)
 
 ##### input #####
 inputs = Input( shape=imagedim )
@@ -116,9 +117,9 @@ x = Dense(100)(x)
 x = BatchNormalization()(x)        
 x = Activation('relu')(x)
 x = Dropout(0.5)(x)
-#x = Dense(1024)(x)
-#x = Activation('relu')(x)
-#x = Dropout(0.5)(x)
+x = Dense(100)(x)
+x = Activation('relu')(x)
+x = Dropout(0.5)(x)
 
 output1 = Dense(num_class_xlabels, activation='softmax', name='output_sigmax')(x)
 output2 = Dense(num_class_ylabels, activation='softmax', name='output_sigmay')(x)

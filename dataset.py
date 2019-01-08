@@ -17,11 +17,11 @@ def load_img_cv2(filename, img_size):
     # read images in grayscale
     img = cv2.imread(filename, 0)
     # resize to 64x64 from 80x80
-    resized_img = cv2.resize(img, dsize=(img_size, img_size))
+    img = cv2.resize(img, dsize=(img_size, img_size))
     # Convert to a flat one-dimensional array.
-    converted_img = resized_img.reshape(1, resized_img.shape[0] * resized_img.shape[1]).astype("float32")[0]
+    img = img.reshape(1, img.shape[0] * img.shape[1]).astype("float32")[0]
 
-    return converted_img
+    return img
 
 def load_img_keras(filename, img_size):
 
@@ -150,9 +150,11 @@ def read_2para_xlabels10_ylabels10(dataPath):
 
     # make dataset nparray
     image_array = np.empty(0)
-    image_list = image_array.tolist()
+    image_list = []
     label1_list = []
     label2_list = []
+
+    counter = 0
 
     # debug
     nfile=0
@@ -160,12 +162,15 @@ def read_2para_xlabels10_ylabels10(dataPath):
     for file in tqdm(os.listdir(dataPath)):
 
         # debug
-        """        
+        """
         nfile=nfile+1
         if nfile>20000:
             break
         """
-        
+        """
+        if counter == 0:
+            image_list = []
+        """
         fname = dataPath + '/' + file
         label = 0
 
@@ -220,27 +225,35 @@ def read_2para_xlabels10_ylabels10(dataPath):
             label2 = 9
 
         #image = img_open_from_files(fname, 80)
-        image = load_img_cv2(fname, 80)
+        image = load_img_cv2(fname, 40)
 
         image_list.append(image / 255.)
         label1_list.append(label1)
         label2_list.append(label2)
+        """
+        if counter == 10000:
+            image_array = np.append(image_array, np.asarray(image_list))
+            counter = 0
+            continue
         
-    image_array = np.array(image_list)
+        counter += 1
+        """
+    image_array = np.array(image_list, dtype=np.float32)
+    #image_array = np.append(image_array, np.asarray(image_list))
 
     return image_array, label1_list, label2_list
 
 
 def load_img_data(filename, dataPath):
     
-    fname = dataPath + '/' + file
+    fname = dataPath + '/' + filename
     label = 0
 
-    x_check_point = file.find('x')
-    y_check_point = file.find('y')
+    x_check_point = filename.find('x')
+    y_check_point = filename.find('y')
 
-    sigmax = float(file[x_check_point+1:x_check_point+4])
-    sigmay = float(file[y_check_point+1:y_check_point+4])
+    sigmax = float(filename[x_check_point+1:x_check_point+4])
+    sigmay = float(filename[y_check_point+1:y_check_point+4])
 
     # read sigmax
     if sigmax == 0.2:
@@ -291,7 +304,10 @@ def load_img_data(filename, dataPath):
 
     return image, label1, label2
 
-    
+def wrapper(args):
+
+    return load_img_data(*args)
+
 def read_2para_xlabels10_ylabels10_multiprocessing(dataPath):
 
     # make dataset nparray
@@ -303,19 +319,19 @@ def read_2para_xlabels10_ylabels10_multiprocessing(dataPath):
     # debug
     nfile=0
 
-    pool = Pool(4)
-    image_list, label1_list, label2_list = pool
-    
-    for file in tqdm(os.listdir(dataPath)):
+    filelist = [(file, dataPath) for file in os.listdir(dataPath)]
 
+    p = Pool(6)
 
-        #image = img_open_from_files(fname, 80)
-        image = load_img_cv2(fname, 80)
-
-        image_list.append(image / 255.)
-        label1_list.append(label1)
-        label2_list.append(label2)
+    counter = 0
+    parts = 0
+    for image_temp, label1_temp, label2_temp in p.map(wrapper, filelist):
+        image_list.append(image_temp)
+        label1_list.append(label1_temp)
+        label2_list.append(label2_temp)
         
     image_array = np.array(image_list)
+
+    p.close()
 
     return image_array, label1_list, label2_list
