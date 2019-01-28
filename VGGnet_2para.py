@@ -65,20 +65,20 @@ inputs = Input( shape=imagedim )
 ksize = 5
 
 ##### conv1 #####
-x = Conv2D(filters=128, kernel_size=ksize, strides=1, padding='same' )(inputs)
+x = Conv2D(filters=64, kernel_size=ksize, strides=1, padding='same' )(inputs)
 x = BatchNormalization()(x)
 x = Activation('relu')(x)
-x = Conv2D(filters=128, kernel_size=ksize, strides=1, padding='same' )(x)
+x = Conv2D(filters=64, kernel_size=ksize, strides=1, padding='same' )(x)
 x = BatchNormalization()(x)
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
 x = Dropout(0.25)(x)
 
 ##### conv2 #####
-x = Conv2D(filters=256, kernel_size=ksize, strides=1, padding='same' )(x)
+x = Conv2D(filters=128, kernel_size=ksize, strides=1, padding='same' )(x)
 x = BatchNormalization()(x)        
 x = Activation('relu')(x)
-x = Conv2D(filters=256, kernel_size=ksize, strides=1, padding='same' )(x)
+x = Conv2D(filters=128, kernel_size=ksize, strides=1, padding='same' )(x)
 x = BatchNormalization()(x)        
 x = Activation('relu')(x)
 x = MaxPooling2D(2)(x)
@@ -117,7 +117,9 @@ x = Dense(100)(x)
 x = BatchNormalization()(x)        
 x = Activation('relu')(x)
 x = Dropout(0.5)(x)
+
 x = Dense(100)(x)
+x = BatchNormalization()(x)        
 x = Activation('relu')(x)
 x = Dropout(0.5)(x)
 
@@ -138,7 +140,7 @@ hist = model2.fit(x_train, {'output_sigmax':y_train,
                             'output_sigmay':z_train},
                   batch_size=batch_size,
                   epochs=epochs,
-                  verbose=2,
+                  verbose=1,
                   validation_split=0.1)
 
 # evaluate model

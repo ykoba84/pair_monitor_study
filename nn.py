@@ -25,13 +25,13 @@ start = time.time()
 date = datetime.now().strftime("%y%m%d_%H%M%S")
 
 batch_size = 50
-num_classes = 10
+num_classes = 19
 epochs = 100
 
 # make train_data
-x_train, y_train = ds.read_data_sigmay_of_ebunch("train_data_sigmay_of_ebunch_labels10_lowLumi")
+x_train, y_train = ds.read_data_sigmay("train_data_sigmay_labels19")
 # make test_data
-x_test, y_test = ds.read_data_sigmay_of_ebunch("test_data_sigmay_of_ebunch_labels10_lowLumi")
+x_test, y_test = ds.read_data_sigmay("test_data_sigmay_labels19")
 
 # from list to array
 x_train = np.array(x_train)
@@ -46,23 +46,27 @@ y_test = to_categorical(y_test)
 
 # Input layer as follows:
 inputs = Input(shape=(64*64,))
+
 # Hidden1 layer as follows:
-h1 = Dense(1000)(inputs)
+h1 = Dense(10000)(inputs)
 h1 = BatchNormalization()(h1)
 h1 = Activation('relu')(h1)
-h1 = Dropout(0.333)(h1)
+h1 = Dropout(0.5)(h1)
+"""
 # Hiddin2 layer as follows:
-h2 = Dense(1500)(h1)
+h2 = Dense(500)(h1)
 h2 = BatchNormalization()(h2)
 h2 = Activation('relu')(h2)
-h2 = Dropout(0.333)(h2)
+h2 = Dropout(0.5)(h2)
+
 # Hiddin3 layer as follows:
-h3 = Dense(2000)(h2)
+h3 = Dense(500)(h2)
 h3 = BatchNormalization()(h3)
 h3 = Activation('relu')(h3)
-h3 = Dropout(0.333)(h3)
+h3 = Dropout(0.5)(h3)
+"""
 # Output layer as follows:
-outputs = Dense(num_classes, activation='softmax')(h3)
+outputs = Dense(num_classes, activation='softmax')(h1)
 
 model = Model(inputs=inputs, outputs=outputs)
 
@@ -76,7 +80,7 @@ model.compile(loss='categorical_crossentropy',
 hist = model.fit(x_train, y_train,
                  batch_size=batch_size,
                  epochs=epochs,verbose=1,
-                 validation_split=0.1)
+                 validation_split=0.2)
 
 # evaluate model
 score = model.evaluate(x_test, y_test, verbose=0)

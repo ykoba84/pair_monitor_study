@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 
-void plotBeamSize() {
+void plotBeamSize_1plot() {
   
   int label;
   double sigma_probability;
@@ -14,7 +14,7 @@ void plotBeamSize() {
   // canvas
   TCanvas* cvs = new TCanvas("cvs", "cvs", 1200, 900);
   gStyle->SetTitleOffset(1.5, "y");
-  cvs->Divide(4,3);
+  //cvs->Divide(4,3);
 
   // histgram
   int bins = 100;
@@ -22,7 +22,18 @@ void plotBeamSize() {
   int ent_max = 1;
   
   // 1.0
-  TH1D* h1 = new TH1D("h1", "correct_value : 1.0 #sigma_{y}/#sigma_{y}^{TDR};#sigma_{y}/#sigma_{y}^{TDR};Entries ", bins, sigma_value[4]+ent_min, sigma_value[4]+ent_max);
+  TH1D* h1 = new TH1D("h1", "", 600, 0.0, 4.0);
+  TH1D* h2 = (TH1D*)h1->Clone();
+  TH1D* h3 = (TH1D*)h1->Clone();
+  TH1D* h4 = (TH1D*)h1->Clone();
+  TH1D* h5 = (TH1D*)h1->Clone();
+  TH1D* h6 = (TH1D*)h1->Clone();
+  TH1D* h7 = (TH1D*)h1->Clone();
+  TH1D* h8 = (TH1D*)h1->Clone();
+  TH1D* h9 = (TH1D*)h1->Clone();
+  TH1D* h10 = (TH1D*)h1->Clone();
+  TH1D* h11 = (TH1D*)h1->Clone();
+  /*
   // 1.2
   TH1D* h2 = new TH1D("h2", "correct_value : 1.2 #sigma_{y}/#sigma_{y}^{TDR};#sigma_{y}/#sigma_{y}^{TDR};Entries ", bins, sigma_value[5]+ent_min, sigma_value[5]+ent_max);
   // 1.4
@@ -43,6 +54,8 @@ void plotBeamSize() {
   TH1D* h10 = new TH1D("h10", "correct_value : 2.8 #sigma_{y}/#sigma_{y}^{TDR};#sigma_{y}/#sigma_{y}^{TDR};Entries ", bins, sigma_value[13]+ent_min, sigma_value[13]+ent_max);
   // 3.0
   TH1D* h11 = new TH1D("h11", "correct_value : 3.0 #sigma_{y}/#sigma_{y}^{TDR};#sigma_{y}/#sigma_{y}^{TDR};Entries ", bins, sigma_value[14]+ent_min, sigma_value[14]+ent_max);
+
+  */
 
   char ch; //comma
   while( ifs >> label >> ch >> temp[0] >> ch >> temp[1] >> ch >> temp[2] >> ch >> temp[3] >> ch >> temp[4] >> ch >> temp[5] >> ch >> temp[6] >> ch >> temp[7] >> ch >> temp[8] >> ch >> temp[9] >> ch >> temp[10] >> ch >> temp[11] >> ch >> temp[12] >> ch >> temp[13] >> ch >> temp[14] >> ch >> temp[15] >> ch >> temp[16] >> ch >> temp[17] >> ch >> temp[18] ) {
@@ -87,6 +100,19 @@ void plotBeamSize() {
     }
   }
 
+  h1->Draw();
+  h2->Draw("same");
+  h3->Draw("same");
+  h4->Draw("same");
+  h5->Draw("same");
+  h6->Draw("same");
+  h7->Draw("same");
+  h8->Draw("same");
+  h9->Draw("same");
+  h10->Draw("same");
+  h11->Draw("same");
+  
+  /*
   // output
   cvs->cd(1);
   h1->Draw();
@@ -120,4 +146,5 @@ void plotBeamSize() {
 
   cvs->cd(11);
   h11->Draw();
+  */
 }
