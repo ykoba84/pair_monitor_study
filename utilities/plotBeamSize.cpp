@@ -22,7 +22,7 @@ void plotBeamSize() {
   int ent_max = 1;
   
   // 1.0
-  TH1D* h1 = new TH1D("h1", "correct_value : 1.0 #sigma_{y}/#sigma_{y}^{TDR};#sigma_{y}/#sigma_{y}^{TDR};Entries ", bins, sigma_value[4]+ent_min, sigma_value[4]+ent_max);
+  TH1D* h1 = new TH1D("h1", "correct_value : 1.0 #sigma_{y}/#sigma_{y}^{TDR};#sigma_{y}/#sigma_{y}^{TDR};Entries ", bins, sigma_value[2]+ent_min, sigma_value[2]+ent_max);
   // 1.2
   TH1D* h2 = new TH1D("h2", "correct_value : 1.2 #sigma_{y}/#sigma_{y}^{TDR};#sigma_{y}/#sigma_{y}^{TDR};Entries ", bins, sigma_value[5]+ent_min, sigma_value[5]+ent_max);
   // 1.4
@@ -52,7 +52,7 @@ void plotBeamSize() {
       sigma_probability += sigma_value[i] * temp[i];
     }
 
-    if( label == 4 ) {
+    if( label == 2 ) {
       h1->Fill( sigma_probability );
     }
     else if( label == 5 ) {

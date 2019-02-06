@@ -14,24 +14,28 @@ void plotBeamSize_1graph() {
   // canvas
   TCanvas* cvs = new TCanvas("cvs", "cvs", 800, 600);
   gStyle->SetTitleOffset(1.1, "y");
-  gStyle->SetTitleSize(0.05, "xy");
+  gStyle->SetTitleSize(0.04, "xy");
   gStyle->SetLabelSize(0.05, "xy");
   //cvs->Divide(4,3);
 
   // legend
-  TLegend* leg = new TLegend(0.6, 0.4, 0.88, 0.88);
+  TLegend* leg = new TLegend(0.6, 0.3, 0.88, 0.88);
 
   // histgram
   int bins = 100;
   int ent_min = -1;
   int ent_max = 1;
-  
+
   // 1.0
-  TH1D* h1 = new TH1D("h1", "", 500, 0.0, 4.0);
+  TH1D* h1 = new TH1D("h1", ";#sigma_{y}/#sigma_{y}^{TDR};", 500, 0.0, 4.0);
   h1->SetStats(0);
   h1->SetLineColor(kRed+3);
   h1->SetFillStyle(3001);
   h1->SetFillColor(kRed+2);
+  TH1D* h0 = (TH1D*)h1->Clone();
+  h0->SetLineColor(kPink+4);
+  h0->SetFillStyle(3001);
+  h0->SetFillColor(kPink+2);  
   TH1D* h2 = (TH1D*)h1->Clone();
   h2->SetLineColor(kOrange+3);
   h2->SetFillStyle(3001);
@@ -81,7 +85,10 @@ void plotBeamSize_1graph() {
       sigma_probability += sigma_value[i] * temp[i];
     }
 
-    if( label == 4 ) {
+    if( label == 3 ) {
+        h0->Fill( sigma_probability );
+    }
+    else if( label == 4 ) {
       h1->Fill( sigma_probability );
     }
     else if( label == 5 ) {
@@ -116,19 +123,34 @@ void plotBeamSize_1graph() {
     }
   }
 
-  h1->Draw();
-  h2->Draw("same");
-  h3->Draw("same");
-  h4->Draw("same");
-  h5->Draw("same");
-  h6->Draw("same");
-  h7->Draw("same");
-  h8->Draw("same");
-  h9->Draw("same");
-  h10->Draw("same");
-  h11->Draw("same");
+  h0->Scale();
+  h1->Scale(h0->GetEntries() / h1->GetEntries());
+  h2->Scale(h0->GetEntries() / h2->GetEntries());
+  h3->Scale(h0->GetEntries() / h3->GetEntries());
+  h4->Scale(h0->GetEntries() / h4->GetEntries());
+  h5->Scale(h0->GetEntries() / h5->GetEntries());
+  h6->Scale(h0->GetEntries() / h6->GetEntries());
+  h7->Scale(h0->GetEntries() / h7->GetEntries());
+  h8->Scale(h0->GetEntries() / h8->GetEntries());
+  h9->Scale(h0->GetEntries() / h9->GetEntries());
+  h10->Scale(h0->GetEntries() / h10->GetEntries());
+  h11->Scale(h0->GetEntries() / h11->GetEntries());
+
+  h0->Draw("hist");
+  h1->Draw("same hist");
+  h2->Draw("same hist");
+  h3->Draw("same hist");
+  h4->Draw("same hist");
+  h5->Draw("same hist");
+  h6->Draw("same hist");
+  h7->Draw("same hist");
+  h8->Draw("same hist");
+  h9->Draw("same hist");
+  h10->Draw("same hist");
+  h11->Draw("same hist");
 
   // legend
+  leg->AddEntry(h0, "#sigma_{y} = 0.8 #sigma_{y}^{TDR}", "lf");
   leg->AddEntry(h1, "#sigma_{y} = 1.0 #sigma_{y}^{TDR}", "lf");
   leg->AddEntry(h2, "#sigma_{y} = 1.2 #sigma_{y}^{TDR}", "lf");
   leg->AddEntry(h3, "#sigma_{y} = 1.4 #sigma_{y}^{TDR}", "lf");
@@ -141,7 +163,7 @@ void plotBeamSize_1graph() {
   leg->AddEntry(h10, "#sigma_{y} = 2.8 #sigma_{y}^{TDR}", "lf");
   leg->AddEntry(h11, "#sigma_{y} = 3.0 #sigma_{y}^{TDR}", "lf");
 
-  leg->Draw();
+  //leg->Draw();
   
   /*
   // output

@@ -243,7 +243,7 @@ def read_2para_xlabels10_ylabels10(dataPath):
 
     return image_array, label1_list, label2_list
 
-
+# Multiprocessing
 def load_img_data(filename, dataPath):
     
     fname = dataPath + '/' + filename

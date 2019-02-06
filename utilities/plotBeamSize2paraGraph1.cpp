@@ -14,18 +14,18 @@ void plotBeamSize2paraGraph1() {
   // canvas
   TCanvas* cvs = new TCanvas("cvs", "cvs", 1200, 900);
   gStyle->SetTitleOffset(1.1, "y");
-  gStyle->SetTitleSize(0.05, "xy");
+  gStyle->SetTitleSize(0.04, "xy");
   gStyle->SetLabelSize(0.05, "xy");
   
   // legend
-  TLegend* leg = new TLegend(0.15, 0.35, 0.45, 0.85);
+  TLegend* leg = new TLegend(0.15, 0.15, 0.45, 0.65);
   
   // histgram
   int bins = 100;
   float ent_min = -0.4;
   float ent_max = 0.4;
   
-  TH1D* h1 = new TH1D("h1", "", 500, 0.2, 2.0);
+  TH1D* h1 = new TH1D("h1", ";#sigma_{y}/#sigma_{y}^{TDR}", 500, 0.2, 2.0);
   h1->SetStats(0);
   h1->SetLineColor(kRed+3);
   h1->SetFillStyle(3001);
@@ -113,31 +113,45 @@ void plotBeamSize2paraGraph1() {
     }
   }
 
+  // normalize
+  //h1->Scale();
+  h2->Scale(h1->GetEntries()/h2->GetEntries());
+  h3->Scale(h1->GetEntries()/h3->GetEntries());
+  h4->Scale(h1->GetEntries()/h4->GetEntries());
+  h5->Scale(h1->GetEntries()/h5->GetEntries());
+  h6->Scale(h1->GetEntries()/h6->GetEntries());
+  h7->Scale(h1->GetEntries()/h7->GetEntries());
+  h8->Scale(h1->GetEntries()/h8->GetEntries());
+  h9->Scale(h1->GetEntries()/h9->GetEntries());
+  h10->Scale(h1->GetEntries()/h10->GetEntries());
+
+  
   // okesyo
   h1->GetYaxis()->SetRangeUser(0, 2000);
 
-  h1->Draw();
-  h2->Draw("same");
-  h3->Draw("same");
-  h4->Draw("same");
-  h5->Draw("same");
-  h6->Draw("same");
-  h7->Draw("same");
-  h8->Draw("same");
-  h9->Draw("same");
-  h10->Draw("same");
+
+  h1->Draw("hist");
+  h2->Draw("same hist");
+  h3->Draw("same hist");
+  h4->Draw("same hist");
+  h5->Draw("same hist");
+  h6->Draw("same hist");
+  h7->Draw("same hist");
+  h8->Draw("same hist");
+  h9->Draw("same hist");
+  h10->Draw("same hist");
   
     // legend
-  leg->AddEntry(h1, "#sigma_{y} = 0.2 #sigma_{y}^{TDR}", "lf");
-  leg->AddEntry(h2, "#sigma_{y} = 0.4 #sigma_{y}^{TDR}", "lf");
-  leg->AddEntry(h3, "#sigma_{y} = 0.6 #sigma_{y}^{TDR}", "lf");
-  leg->AddEntry(h4, "#sigma_{y} = 0.8 #sigma_{y}^{TDR}", "lf");
-  leg->AddEntry(h5, "#sigma_{y} = 1.0 #sigma_{y}^{TDR}", "lf");
-  leg->AddEntry(h6, "#sigma_{y} = 1.2 #sigma_{y}^{TDR}", "lf");
-  leg->AddEntry(h7, "#sigma_{y} = 1.4 #sigma_{y}^{TDR}", "lf");
-  leg->AddEntry(h8, "#sigma_{y} = 1.6 #sigma_{y}^{TDR}", "lf");
-  leg->AddEntry(h9, "#sigma_{y} = 1.8 #sigma_{y}^{TDR}", "lf");
-  leg->AddEntry(h10, "#sigma_{y} = 2.0 #sigma_{y}^{TDR}", "lf");
+  leg->AddEntry(h1, "#sigma_{x} = 0.2 #sigma_{x}^{TDR}", "lf");
+  leg->AddEntry(h2, "#sigma_{x} = 0.4 #sigma_{x}^{TDR}", "lf");
+  leg->AddEntry(h3, "#sigma_{x} = 0.6 #sigma_{x}^{TDR}", "lf");
+  leg->AddEntry(h4, "#sigma_{x} = 0.8 #sigma_{x}^{TDR}", "lf");
+  leg->AddEntry(h5, "#sigma_{x} = 1.0 #sigma_{x}^{TDR}", "lf");
+  leg->AddEntry(h6, "#sigma_{x} = 1.2 #sigma_{x}^{TDR}", "lf");
+  leg->AddEntry(h7, "#sigma_{x} = 1.4 #sigma_{x}^{TDR}", "lf");
+  leg->AddEntry(h8, "#sigma_{x} = 1.6 #sigma_{x}^{TDR}", "lf");
+  leg->AddEntry(h9, "#sigma_{x} = 1.8 #sigma_{x}^{TDR}", "lf");
+  leg->AddEntry(h10, "#sigma_{x} = 2.0 #sigma_{x}^{TDR}", "lf");
 
-  leg->Draw();
+  //leg->Draw();
 }
