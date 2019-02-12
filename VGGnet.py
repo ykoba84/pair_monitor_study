@@ -25,19 +25,15 @@ print("time stamp :", date)
 
 batch_size = 64
 num_classes = 19
-kernel_size = 4
+kernel_size = 3
 epochs = 100
 
 print("hyper parameteres : batch_size=", batch_size, " epochs=", epochs, " kernel_size=", kernel_size)
 
 # make train_data
-#x_train, y_train = ds.read_data("train_data_100000")
-#x_train, y_train = ds.read_detail("train_data_pBunch")
-x_train, y_train = ds.read_0238("train_data_0238")
+x_train, y_train = ds.read_data_sigmay("train_data_sigmay_y0238")
 # make val_data
-#x_val, y_val = ds.read_data("test_data_5000")
-#x_val, y_val = ds.read_detail("test_data_detail")
-x_val, y_val = ds.read_0238("test_data_0238")
+x_val, y_val = ds.read_data_sigmay("test_data_sigmay_y0238")
 
 # change list to array
 x_train = np.array(x_train)
