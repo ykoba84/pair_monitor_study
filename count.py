@@ -3,7 +3,7 @@ import os
 
 label_list = [[0 for i in range(10)] for j in range(10)]
 
-for file in tqdm(os.listdir("test_data_2para_xlabels10_ylabels10")):
+for file in tqdm(os.listdir("train_data_2para_x0220y0220")):
     
     x_check_point = file.find('x')
     y_check_point = file.find('y')
