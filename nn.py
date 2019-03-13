@@ -49,9 +49,9 @@ inputs = Input(shape=(64*64,))
 
 # Hidden1 layer as follows:
 h1 = Dense(100)(inputs)
-h1 = BatchNormalization()(h1)
+#h1 = BatchNormalization()(h1)
 h1 = Activation('relu')(h1)
-h1 = Dropout(0.5)(h1)
+#h1 = Dropout(0.5)(h1)
 """
 # Hiddin2 layer as follows:
 h2 = Dense(500)(h1)
