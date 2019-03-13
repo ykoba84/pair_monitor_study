@@ -26,12 +26,12 @@ date = datetime.now().strftime("%y%m%d_%H%M%S")
 
 batch_size = 50
 num_classes = 19
-epochs = 100
+epochs = 10
 
 # make train_data
-x_train, y_train = ds.read_data_sigmay("train_data_sigmay_labels19")
+x_train, y_train = ds.read_data_sigmay("../ML_Hans-on_Tutorial/train_data_sigmay_y0238")
 # make test_data
-x_test, y_test = ds.read_data_sigmay("test_data_sigmay_labels19")
+x_test, y_test = ds.read_data_sigmay("../ML_Hans-on_Tutorial/test_data_sigmay_y0238")
 
 # from list to array
 x_train = np.array(x_train)
@@ -48,7 +48,7 @@ y_test = to_categorical(y_test)
 inputs = Input(shape=(64*64,))
 
 # Hidden1 layer as follows:
-h1 = Dense(10000)(inputs)
+h1 = Dense(100)(inputs)
 h1 = BatchNormalization()(h1)
 h1 = Activation('relu')(h1)
 h1 = Dropout(0.5)(h1)

@@ -84,11 +84,11 @@ def read_data_sigmay(dataPath):
     label_list = []
     nfile=0
     for file in tqdm(os.listdir(dataPath)):
-        """
+        
         nfile=nfile+1
         if nfile>100:
             break
-        """
+        
         fname = dataPath + '/' + file
         label = 0
 
