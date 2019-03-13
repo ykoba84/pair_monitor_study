@@ -55,15 +55,15 @@ h1 = Activation('relu')(h1)
 """
 # Hiddin2 layer as follows:
 h2 = Dense(500)(h1)
-h2 = BatchNormalization()(h2)
+#h2 = BatchNormalization()(h2)
 h2 = Activation('relu')(h2)
-h2 = Dropout(0.5)(h2)
+#h2 = Dropout(0.5)(h2)
 
 # Hiddin3 layer as follows:
 h3 = Dense(500)(h2)
-h3 = BatchNormalization()(h3)
+#h3 = BatchNormalization()(h3)
 h3 = Activation('relu')(h3)
-h3 = Dropout(0.5)(h3)
+#h3 = Dropout(0.5)(h3)
 """
 # Output layer as follows:
 outputs = Dense(num_classes, activation='softmax')(h1)
