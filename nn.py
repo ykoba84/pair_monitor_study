@@ -102,10 +102,3 @@ otp.CsvOutput_0238(combinations, outputpath)
 otp.TotalTimeOutput(total_time, outputpath)
 otp.HyperParameterOutput(batch_size, outputpath)
 gpt.loss_and_acc(hist, epochs, outputpath)
-
-sleeping_time = input("How long do you sleep?(hour) : ")
-sleeping_time = int(sleeping_time)
-if sleeping_time > 5:
-    print("😃 < good!")
-else:
-    print("🤒 < bad...")
