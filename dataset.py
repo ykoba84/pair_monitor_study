@@ -86,7 +86,7 @@ def read_data_sigmay(dataPath):
     for file in tqdm(os.listdir(dataPath)):
         
         nfile=nfile+1
-        if nfile>100:
+        if nfile>1000:
             break
         
         fname = dataPath + '/' + file
